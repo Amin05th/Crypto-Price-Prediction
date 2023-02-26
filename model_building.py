@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression, SGDRegressor, BayesianRidge, 
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, VotingRegressor
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_squared_log_error, r2_score
-from sklearn.decomposition import PCA
+import pickle
 
 
 def evaluate(y_true, y_pred):
@@ -59,6 +59,6 @@ model_scores_df = pd.DataFrame(model_scores).to_csv("model_scores.csv")
 model_list.pop("SGDRegressor")
 voting_reg = VotingRegressor(estimators=list(model_list.items()))
 voting_reg.fit(X_train, y_train)
-y_pred = voting_reg.predict(X_test)
 
+pickle.dump({"model": voting_reg}, open("model_file" + ".p", "wb"))
 
